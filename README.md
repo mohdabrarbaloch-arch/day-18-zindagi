@@ -40,8 +40,9 @@ Anyone can post an emergency request — and the platform instantly lists
 
 ## 🖼️ Screenshots
 
-> Screenshots are captured and added to the release. See the
-> [v1.0.0 release](https://github.com/mohdabrarbaloch-arch/day-18-zindagi/releases) for images.
+| Landing & compatibility guide | Auth | Donor dashboard |
+|---|---|---|
+| ![Landing](https://static.teamily.ai/sites/693b4282-077f-4bcf-815f-eaa3ea0ec6f3/documents/landing/landing.png) | ![Auth](https://static.teamily.ai/sites/693b4282-077f-4bcf-815f-eaa3ea0ec6f3/documents/auth/auth.png) | ![Donor](https://static.teamily.ai/sites/693b4282-077f-4bcf-815f-eaa3ea0ec6f3/documents/donor/donor.png) |
 
 ## 🚀 Quick Start (local)
 
