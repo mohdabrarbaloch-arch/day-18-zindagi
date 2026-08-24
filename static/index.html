@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zindagi — Blood Donor Network</title>
+  <meta name="description" content="Find compatible blood donors in minutes. Zindagi connects donors to emergency requests across Pakistan." />
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- ===== Top bar ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Zindagi</span>
+      <span class="brand-sub">خون کا عطیہ</span>
+    </div>
+    <nav class="topnav" id="topnav"></nav>
+  </header>
+
+  <!-- ===== Views ===== -->
+  <main class="container">
+    <!-- Landing -->
+    <section id="view-landing" class="view">
+      <div class="hero">
+        <div class="hero-badge">🩸 Every 3 seconds, someone needs blood</div>
+        <h1>Find a compatible donor <span class="grad">in minutes.</span></h1>
+        <p class="hero-sub">
+          Zindagi connects verified blood donors to emergency requests across Pakistan.
+          No more WhatsApp forwards. No more guessing who can donate to whom.
+        </p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" data-nav="register">I want to donate</button>
+          <button class="btn btn-outline" data-nav="login">I need blood</button>
+        </div>
+        <div class="stats-row" id="landing-stats"></div>
+      </div>
+
+      <div class="guide" id="guide">
+        <h2>Who can donate to whom?</h2>
+        <p class="guide-sub">The ABO + Rh compatibility cheat sheet — no medical degree needed.</p>
+        <div class="guide-grid" id="guide-grid"></div>
+      </div>
+    </section>
+
+    <!-- Auth -->
+    <section id="view-auth" class="view hidden">
+      <div class="card auth-card">
+        <h2 id="auth-title">Create an account</h2>
+        <p class="muted" id="auth-sub">Join the donor network</p>
+        <form id="auth-form">
+          <input type="hidden" id="auth-mode" value="register" />
+          <div class="field">
+            <label>Full name</label>
+            <input type="text" id="auth-name" placeholder="Ali Raza" required />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="auth-email" placeholder="you@email.com" required />
+          </div>
+          <div class="field">
+            <label>Phone</label>
+            <input type="tel" id="auth-phone" placeholder="03XX-XXXXXXX" required />
+          </div>
+          <div class="field">
+            <label>Password <span class="muted">(min 8 chars)</span></label>
+            <input type="password" id="auth-password" placeholder="••••••••" minlength="8" required />
+          </div>
+          <div class="field">
+            <label>I am a…</label>
+            <div class="role-picker">
+              <label class="role-opt"><input type="radio" name="role" value="donor" checked /> 🩸 Donor</label>
+              <label class="role-opt"><input type="radio" name="role" value="requester" /> 🏥 Need blood</label>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit" id="auth-submit">Create account</button>
+        </form>
+        <p class="auth-switch">
+          <span id="auth-switch-text">Already have an account?</span>
+          <a href="#" id="auth-switch-link">Log in</a>
+        </p>
+        <div id="auth-msg" class="msg"></div>
+      </div>
+    </section>
+
+    <!-- Donor dashboard -->
+    <section id="view-donor" class="view hidden">
+      <div class="card">
+        <div class="row-between">
+          <div>
+            <h2>Donor profile</h2>
+            <p class="muted" id="donor-name"></p>
+          </div>
+          <button class="btn btn-sm btn-outline" id="btn-availability">Mark unavailable</button>
+        </div>
+        <form id="donor-form">
+          <div class="grid-2">
+            <div class="field">
+              <label>Blood group</label>
+              <select id="donor-bg">
+                <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                <option>AB+</option><option>AB-</option><option>O+</option><option selected>O-</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>City</label>
+              <input type="text" id="donor-city" placeholder="Karachi" required />
+            </div>
+            <div class="field">
+              <label>Area</label>
+              <input type="text" id="donor-area" placeholder="Clifton" required />
+            </div>
+            <div class="field">
+              <label>Birth year</label>
+              <input type="number" id="donor-by" placeholder="1995" min="1960" max="2008" required />
+            </div>
+            <div class="field">
+              <label>Weight (kg)</label>
+              <input type="number" id="donor-wt" placeholder="70" min="50" required />
+            </div>
+            <div class="field">
+              <label>Verified badge</label>
+              <div id="donor-verified" class="badge badge-muted">Not verified</div>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Save profile</button>
+          <span id="donor-msg" class="msg"></span>
+        </form>
+        <div class="divider"></div>
+        <h3>Open requests near you</h3>
+        <div id="donor-requests" class="list"></div>
+      </div>
+    </section>
+
+    <!-- Requester dashboard -->
+    <section id="view-requester" class="view hidden">
+      <div class="card">
+        <h2>Post a blood request</h2>
+        <form id="request-form">
+          <div class="grid-2">
+            <div class="field">
+              <label>Patient name</label>
+              <input type="text" id="req-patient" placeholder="Fatima Ahmed" required />
+            </div>
+            <div class="field">
+              <label>Blood group needed</label>
+              <select id="req-bg">
+                <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                <option>AB+</option><option>AB-</option><option>O+</option><option selected>O-</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Units needed</label>
+              <input type="number" id="req-units" value="1" min="1" max="20" required />
+            </div>
+            <div class="field">
+              <label>Urgency</label>
+              <select id="req-urgency">
+                <option value="normal">Normal (72h)</option>
+                <option value="urgent">Urgent (24h)</option>
+                <option value="emergency" selected>Emergency (6h)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hospital</label>
+              <input type="text" id="req-hospital" placeholder="Aga Khan University Hospital" required />
+            </div>
+            <div class="field">
+              <label>City</label>
+              <input type="text" id="req-city" placeholder="Karachi" required />
+            </div>
+            <div class="field">
+              <label>Area</label>
+              <input type="text" id="req-area" placeholder="Clifton" required />
+            </div>
+            <div class="field">
+              <label>Notes <span class="muted">(optional)</span></label>
+              <input type="text" id="req-notes" placeholder="Any details that help" />
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Post request</button>
+          <span id="request-msg" class="msg"></span>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>My requests</h3>
+        <div id="my-requests" class="list"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close">×</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Zindagi 🩸 — built for the 30-day build challenge. Donate blood, save a life.</p>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
